@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hash Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        #hash-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin: 10px 0;
+        }
+
+        input, select, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        textarea#output {
+            width: 100%;
+            min-height: 170px;
+            padding: 20px;
+            resize: none;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            background-color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.15);
+            border: none;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 600px) {
+            input, select {
+                width: 100%;
+            }
+            textarea#output {
+                min-height: 200px;
+            }
+        }
+
+        #copy-button {
+            background-color: #28a745;
+            color: #ffffff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        #copy-button:hover {
+            background-color: #1e7e34;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Hash Generator</h1>
+            <form id="hash-form">
+                <label for="input-string">Input string:</label>
+                <input type="text" id="input-string" required>
+                <br>
+                <label for="algorithm">Select algorithm:</label>
+                <select id="algorithm" required>
+                    <option value="MD5">MD5</option>
+                    <option value="SHA1">SHA1</option>
+                    <option value="SHA256">SHA256</option>
+                    <option value="SHA384">SHA384</option>
+                    <option value="SHA512">SHA512</option>
+                </select>
+                <br>
+                <button type="submit">Hash</button>
+            </form>
+            <h2>Hashed output:</h2>
+            <textarea id="output" readonly></textarea>
+            <button id="copy-button">Copy</button>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+        <script>
+            document.getElementById("hash-form").addEventListener("submit", function(event) {
+                event.preventDefault();
+                const inputString = document.getElementById("input-string").value;
+                const algorithm = document.getElementById("algorithm").value;
+                let hashedOutput;
+
+                switch (algorithm) {
+                    case "MD5":
+                    hashedOutput = CryptoJS.MD5(inputString).toString();
+                    break;
+                    case "SHA1":
+                    hashedOutput = CryptoJS.SHA1(inputString).toString();
+                    break;
+                    case "SHA256":
+                    hashedOutput = CryptoJS.SHA256(inputString).toString();
+                    break;
+                    case "SHA384":
+                    hashedOutput = CryptoJS.SHA384(inputString).toString();
+                    break;
+                    case "SHA512":
+                    hashedOutput = CryptoJS.SHA512(inputString).toString();
+                    break;
+                }
+                document.getElementById("output").innerText = hashedOutput;
+            });
+
+            document.getElementById("copy-button").addEventListener("click", function() {
+                const output = document.getElementById("output");
+                output.select();
+                output.setSelectionRange(0, 99999); // For mobile devices
+                document.execCommand("copy");
+                alert("Hashed output copied to clipboard!");
+            });
+        </script>
+    </body>
+</html>
+
+
